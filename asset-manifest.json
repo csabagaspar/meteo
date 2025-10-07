@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/meteo/static/js/main.c9fd49eb.js",
+    "static/js/453.8208f4e5.chunk.js": "/meteo/static/js/453.8208f4e5.chunk.js",
+    "index.html": "/meteo/index.html",
+    "main.c9fd49eb.js.map": "/meteo/static/js/main.c9fd49eb.js.map",
+    "453.8208f4e5.chunk.js.map": "/meteo/static/js/453.8208f4e5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.c9fd49eb.js"
+  ]
+}
