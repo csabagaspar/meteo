@@ -111,16 +111,13 @@ const Search = () => {
 };
 
 export const handleGetOptionLabel = (city: City) => {
-  let label = city.name;
+  let label = `${city.name} - ${city.country}`;
 
   if (city?.admin1) {
     label += ` - ${city.admin1}`;
   }
   if (city?.admin2) {
     label += ` - ${city.admin2}`;
-  }
-  if (city?.admin3) {
-    label += ` - ${city.admin3}`;
   }
   return label;
 };

@@ -2,7 +2,7 @@
   "name": "meteo",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://csaba-gaspar.github.io/meteo",
+  "homepage": "https://csabagaspar.github.io/meteo/index.html",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -29,6 +29,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
