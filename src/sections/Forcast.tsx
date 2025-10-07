@@ -30,6 +30,8 @@ const Forcast = () => {
   React.useEffect(() => {
     if (city) {
       setSkip(false);
+    } else {
+      setSkip(true);
     }
   }, [city]);
 
