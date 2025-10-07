@@ -1,0 +1,209 @@
+openapi: 3.1.0
+info:
+  title: Forcast Api
+  version: "1.0"
+tags:
+  - name: forecast
+paths:
+  /v1/forecast:
+    get:
+      tags:
+        - forecast
+      summary: Get forecast
+      parameters:
+        - name: latitude
+          in: query
+          description: Geographical WGS84 coordinates of the location. Multiple coordinates can be comma separated. E.g. &latitude=52.52,48.85&longitude=13.41,2.35. To return data for multiple locations the JSON output changes to a list of structures. CSV and XLSX formats add a column location_id.
+          required: true
+          schema:
+            type: number
+            format: float
+        - name: longitude
+          in: query
+          description: Geographical WGS84 coordinates of the location. Multiple coordinates can be comma separated. E.g. &latitude=52.52,48.85&longitude=13.41,2.35. To return data for multiple locations the JSON output changes to a list of structures. CSV and XLSX formats add a column location_id.
+          required: true
+          schema:
+            type: number
+            format: float
+        - name: timezone
+          in: query
+          description: If timezone is set, all timestamps are returned as local-time and data is returned starting at 00:00 local-time. Any time zone name from the time zone database is supported. If auto is set as a time zone, the coordinates will be automatically resolved to the local time zone. For multiple coordinates, a comma separated list of timezones can be specified.
+          required: false
+          schema:
+            type: string
+        - name: daily
+          in: query
+          description: A list of daily weather variable aggregations which should be returned. Values can be comma separated, or multiple &daily= parameter in the URL can be used. If daily weather variables are specified, parameter timezone is required.
+          required: false
+          schema:
+            type: string
+        - name: current
+          in: query
+          description: A list of weather variables to get current conditions.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForecastResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+components:
+  schemas:
+    BadRequest:
+      type: object
+      properties:
+        error:
+          type: boolean
+        reason:
+          type: string
+      required:
+        - error
+        - reason
+    CurrentUnits:
+      type: object
+      required:
+        - time
+        - temperature_2m
+        - weather_code
+        - interval
+      properties:
+        time:
+          type: string
+        temperature_2m:
+          type: string
+        weather_code:
+          type: string
+        interval:
+          type: string
+    Time:
+      type: array
+      items:
+        type: string
+    WeatherCode:
+      type: array
+      items:
+        type: integer
+        format: int32
+    Temperature2MMax:
+      type: array
+      items:
+        type: integer
+        format: float
+    Temperature2MMin:
+      type: array
+      items:
+        type: integer
+        format: float
+    PrecipitationProbabilityMean:
+      type: array
+      items:
+        type: integer
+        format: int32
+    Current:
+      type: object
+      required:
+        - time
+        - temperature_2m
+        - interval
+        - weather_code
+      properties:
+        time:
+          type: string
+        temperature_2m:
+          type: integer
+          format: float
+        interval:
+          type: integer
+          format: int32
+        weather_code:
+          type: integer
+          format: int32
+    DailyUnits:
+      type: object
+      required:
+        - time
+        - weather_code
+        - temperature_2m_max
+        - temperature_2m_min
+        - precipitation_probability_mean
+      properties:
+        time:
+          type: string
+        weather_code:
+          type: string
+        temperature_2m_max:
+          type: string
+        temperature_2m_min:
+          type: string
+        precipitation_probability_mean:
+          type: string
+    Daily:
+      type: object
+      required:
+        - time
+        - weather_code
+        - temperature_2m_max
+        - temperature_2m_min
+        - precipitation_probability_mean
+      properties:
+        time:
+          $ref: "#/components/schemas/Time"
+        weather_code:
+          $ref: "#/components/schemas/WeatherCode"
+        temperature_2m_max:
+          $ref: "#/components/schemas/Temperature2MMax"
+        temperature_2m_min:
+          $ref: "#/components/schemas/Temperature2MMin"
+        precipitation_probability_mean:
+          $ref: "#/components/schemas/PrecipitationProbabilityMean"
+    ForecastResponse:
+      type: object
+      required:
+        - latitude
+        - longitude
+        - generationtime_ms
+        - utc_offset_seconds
+        - timezone
+        - timezone_abbreviation
+        - elevation
+        - current_units
+        - current
+        - daily_units
+        - daily
+      properties:
+        latitude:
+          type: integer
+          format: float
+        longitude:
+          type: integer
+          format: float
+        generationtime_ms:
+          type: integer
+          format: float
+        utc_offset_seconds:
+          type: integer
+          format: int32
+        timezone:
+          type: string
+        timezone_abbreviation:
+          type: string
+        elevation:
+          type: integer
+          format: float
+        current_units:
+          $ref: "#/components/schemas/CurrentUnits"
+        current:
+          $ref: "#/components/schemas/Current"
+        daily_units:
+          $ref: "#/components/schemas/DailyUnits"
+        daily:
+          $ref: "#/components/schemas/Daily"
