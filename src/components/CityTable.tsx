@@ -34,7 +34,7 @@ const CityTable = (props: CityTableProps) => {
         <TableBody>
           {new Array(7).fill(true).map((value: boolean, index: number) => {
             return (
-              <TableRow>
+              <TableRow key={index}>
                 <TableCell>{days[index]}</TableCell>
                 <TableCell>
                   {icons[index]}
